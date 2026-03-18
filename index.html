@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Form Link Generator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="page-wrapper">
+    <div class="card generator-card">
+      <div class="card-header">
+        <div class="logo-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+            <polyline points="10 9 9 9 8 9"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="card-title">Form Link Generator</h1>
+          <p class="card-subtitle">Create a shareable contact form in seconds</p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="label" for="redirect-url">
+          <span class="label-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+            </svg>
+          </span>
+          Redirect URL
+        </label>
+        <input
+          type="url"
+          id="redirect-url"
+          class="input"
+          placeholder="https://your-website.com/thank-you"
+          autocomplete="off"
+        />
+        <p class="input-hint">Users will be redirected here after submitting the form.</p>
+      </div>
+
+      <div class="form-group">
+        <label class="label">
+          <span class="label-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </span>
+          Assign To
+        </label>
+        <div class="name-options">
+          <label class="name-card">
+            <input type="radio" name="person" value="vishnu" />
+            <span class="name-card-inner">
+              <span class="avatar">V</span>
+              <span class="name-text">Vishnu</span>
+            </span>
+          </label>
+          <label class="name-card">
+            <input type="radio" name="person" value="adithyan" />
+            <span class="name-card-inner">
+              <span class="avatar">A</span>
+              <span class="name-text">Adithyan</span>
+            </span>
+          </label>
+          <label class="name-card">
+            <input type="radio" name="person" value="krishnaraj" />
+            <span class="name-card-inner">
+              <span class="avatar">K</span>
+              <span class="name-text">Krishnaraj</span>
+            </span>
+          </label>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" id="generate-btn" onclick="generateLink()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="16 18 22 12 16 6"/>
+          <polyline points="8 6 2 12 8 18"/>
+        </svg>
+        Generate Form Link
+      </button>
+
+      <div class="result-box" id="result-box">
+        <div class="result-label">Your shareable form link</div>
+        <div class="result-link-row">
+          <span class="result-url" id="result-url"></span>
+          <button class="btn btn-copy" id="copy-btn" onclick="copyLink()" title="Copy link">
+            <svg id="copy-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+            <svg id="check-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </button>
+        </div>
+        <a class="btn btn-secondary result-open-btn" id="result-open-btn" target="_blank">
+          Open Form
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+        </a>
+      </div>
+
+      <div class="error-msg" id="error-msg"></div>
+    </div>
+  </div>
+
+  <script>
+    let generatedUrl = '';
+
+    function generateLink() {
+      const errorEl = document.getElementById('error-msg');
+      const resultBox = document.getElementById('result-box');
+      errorEl.textContent = '';
+      resultBox.classList.remove('visible');
+
+      const redirectUrl = document.getElementById('redirect-url').value.trim();
+      const selectedPerson = document.querySelector('input[name="person"]:checked');
+
+      if (!redirectUrl) {
+        showError('Please enter a redirect URL.');
+        document.getElementById('redirect-url').focus();
+        return;
+      }
+
+      try {
+        new URL(redirectUrl);
+      } catch {
+        showError('Please enter a valid URL (e.g. https://example.com).');
+        return;
+      }
+
+      if (!selectedPerson) {
+        showError('Please select a person to assign the form to.');
+        return;
+      }
+
+      const base = window.location.href.replace('index.html', '').replace(/\/$/, '');
+      const params = new URLSearchParams({ name: selectedPerson.value, redirect: redirectUrl });
+      generatedUrl = `${base}/form.html?${params.toString()}`;
+
+      document.getElementById('result-url').textContent = generatedUrl;
+      document.getElementById('result-open-btn').href = generatedUrl;
+      resultBox.classList.add('visible');
+
+      // Reset copy button state
+      document.getElementById('copy-icon').style.display = '';
+      document.getElementById('check-icon').style.display = 'none';
+      document.getElementById('copy-btn').classList.remove('copied');
+    }
+
+    function copyLink() {
+      if (!generatedUrl) return;
+      navigator.clipboard.writeText(generatedUrl).then(() => {
+        const btn = document.getElementById('copy-btn');
+        document.getElementById('copy-icon').style.display = 'none';
+        document.getElementById('check-icon').style.display = '';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          document.getElementById('copy-icon').style.display = '';
+          document.getElementById('check-icon').style.display = 'none';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+
+    function showError(msg) {
+      const el = document.getElementById('error-msg');
+      el.textContent = msg;
+      el.classList.add('shake');
+      setTimeout(() => el.classList.remove('shake'), 400);
+    }
+
+    // Allow Enter key on URL input to trigger generation
+    document.getElementById('redirect-url').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') generateLink();
+    });
+  </script>
+</body>
+</html>

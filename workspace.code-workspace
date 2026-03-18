@@ -1,0 +1,23 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../cursor"
+		},
+		{
+			"path": "../hf-backend"
+		},
+		{
+			"path": "../resume screener"
+		},
+		{
+			"path": "../supply-chain-demo"
+		},
+		{
+			"path": "../supply-chain-demo1"
+		}
+	],
+	"settings": {}
+}

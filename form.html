@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Form</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <div class="page-wrapper">
+    <div class="card form-card" id="form-card">
+
+      <!-- Invalid / missing params state -->
+      <div id="invalid-state" style="display:none;" class="invalid-state">
+        <div class="invalid-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+        </div>
+        <h2>Invalid Form Link</h2>
+        <p>This link is missing required parameters. Please use the generator to create a valid form link.</p>
+        <a href="index.html" class="btn btn-primary">Go to Generator</a>
+      </div>
+
+      <!-- Form content -->
+      <div id="form-content">
+        <div class="card-header">
+          <div class="logo-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+              <polyline points="10 9 9 9 8 9"/>
+            </svg>
+          </div>
+          <div>
+            <h1 class="card-title" id="form-title">Contact Form</h1>
+            <p class="card-subtitle" id="form-subtitle">Fill in your details below</p>
+          </div>
+        </div>
+
+        <form id="contact-form" method="POST" novalidate>
+          <!-- Formspree hidden redirect field -->
+          <input type="hidden" name="_next" id="field-next" value="" />
+          <!-- Person identifier (for your records) -->
+          <input type="hidden" name="assigned_to" id="field-assigned" value="" />
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="label" for="field-name">
+                <span class="label-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                  </svg>
+                </span>
+                Full Name <span class="required">*</span>
+              </label>
+              <input type="text" id="field-name" name="name" class="input" placeholder="John Doe" autocomplete="name" />
+              <span class="field-error" id="err-name"></span>
+            </div>
+
+            <div class="form-group">
+              <label class="label" for="field-email">
+                <span class="label-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                    <polyline points="22,6 12,13 2,6"/>
+                  </svg>
+                </span>
+                Email Address <span class="required">*</span>
+              </label>
+              <input type="email" id="field-email" name="email" class="input" placeholder="john@example.com" autocomplete="email" />
+              <span class="field-error" id="err-email"></span>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="label" for="field-company">
+                <span class="label-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                  </svg>
+                </span>
+                Company <span class="required">*</span>
+              </label>
+              <input type="text" id="field-company" name="company" class="input" placeholder="Acme Inc." autocomplete="organization" />
+              <span class="field-error" id="err-company"></span>
+            </div>
+
+            <div class="form-group">
+              <label class="label" for="field-phone">
+                <span class="label-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.65 3.38 2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.78a16 16 0 0 0 6 6l.86-.86a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16z"/>
+                  </svg>
+                </span>
+                Phone Number <span class="required">*</span>
+              </label>
+              <input type="tel" id="field-phone" name="phone" class="input" placeholder="+1 (555) 000-0000" autocomplete="tel" />
+              <span class="field-error" id="err-phone"></span>
+            </div>
+          </div>
+
+          <!-- Calendly scheduling option -->
+          <div class="calendly-section">
+            <label class="checkbox-label">
+              <input type="checkbox" id="schedule-checkbox" onchange="toggleCalendly(this)" />
+              <span class="checkbox-custom"></span>
+              <span class="checkbox-text">
+                <strong>Would you like to schedule a meeting?</strong>
+                <span class="checkbox-sub">Book a time that works best for you.</span>
+              </span>
+            </label>
+
+            <div class="calendly-link-box" id="calendly-box" style="display:none;">
+              <div class="calendly-link-inner">
+                <div class="calendly-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/>
+                    <line x1="3" y1="10" x2="21" y2="10"/>
+                  </svg>
+                </div>
+                <div class="calendly-link-text">
+                  <span class="calendly-label">Book a slot with <strong id="calendly-person-name"></strong></span>
+                  <a id="calendly-link" href="#" target="_blank" class="calendly-url" rel="noopener noreferrer">
+                    Open Calendly Booking
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                      <polyline points="15 3 21 3 21 9"/>
+                      <line x1="10" y1="14" x2="21" y2="3"/>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary submit-btn" id="submit-btn">
+            <span id="submit-label">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="22" y1="2" x2="11" y2="13"/>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+              </svg>
+              Submit
+            </span>
+            <span id="submit-loading" style="display:none;">
+              <span class="spinner"></span>
+              Submitting…
+            </span>
+          </button>
+
+          <div class="form-error-banner" id="form-error-banner" style="display:none;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            <span id="form-error-text">Please fix the errors above before submitting.</span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const SUPABASE_URL = 'https://fdrfettybdjmmriummrp.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZkcmZldHR5YmRqbW1yaXVtbXJwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMzMDkyMTQsImV4cCI6MjA4ODg4NTIxNH0.czYM-gd9wymGZcv3uTkwMGsMlrMMef4RJat75I36-yI';
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const CALENDLY_LINKS = {
+      vishnu:     'https://calendly.com/vishnuma967/30min',
+      adithyan:   'https://calendly.com/adithyan701264/30min?month=2026-01',
+      krishnaraj: 'https://calendly.com/krishnaraj',
+    };
+
+    const PERSON_DISPLAY = {
+      vishnu:     'Vishnu',
+      adithyan:   'Adithyan',
+      krishnaraj: 'Krishnaraj',
+    };
+
+    // ── Read and validate URL params ──────────────────────────────────────────
+    const params    = new URLSearchParams(window.location.search);
+    const personKey = (params.get('name') || '').toLowerCase();
+    const redirect  = params.get('redirect') || '';
+
+    function isValidUrl(str) {
+      try { new URL(str); return true; } catch { return false; }
+    }
+
+    if (!CALENDLY_LINKS[personKey] || !redirect || !isValidUrl(redirect)) {
+      document.getElementById('invalid-state').style.display = '';
+      document.getElementById('form-content').style.display = 'none';
+    } else {
+      // Populate hidden fields & page titles
+      document.getElementById('field-next').value     = redirect;
+      document.getElementById('field-assigned').value = PERSON_DISPLAY[personKey];
+      document.getElementById('form-title').textContent    = `Contact ${PERSON_DISPLAY[personKey]}`;
+      document.getElementById('form-subtitle').textContent = `Fill in your details and ${PERSON_DISPLAY[personKey]} will be in touch.`;
+      document.title = `Contact ${PERSON_DISPLAY[personKey]}`;
+
+      // Set Calendly link
+      document.getElementById('calendly-link').href         = CALENDLY_LINKS[personKey];
+      document.getElementById('calendly-person-name').textContent = PERSON_DISPLAY[personKey];
+    }
+
+    // ── Calendly toggle ───────────────────────────────────────────────────────
+    function toggleCalendly(checkbox) {
+      const box = document.getElementById('calendly-box');
+      if (checkbox.checked) {
+        box.style.display = '';
+        box.classList.add('slide-in');
+      } else {
+        box.style.display = 'none';
+        box.classList.remove('slide-in');
+      }
+    }
+
+    // ── Client-side validation ────────────────────────────────────────────────
+    function setError(fieldId, errId, message) {
+      const field = document.getElementById(fieldId);
+      const err   = document.getElementById(errId);
+      if (message) {
+        field.classList.add('input-error');
+        err.textContent = message;
+      } else {
+        field.classList.remove('input-error');
+        err.textContent = '';
+      }
+    }
+
+    function validateForm() {
+      let valid = true;
+
+      const name    = document.getElementById('field-name').value.trim();
+      const email   = document.getElementById('field-email').value.trim();
+      const company = document.getElementById('field-company').value.trim();
+      const phone   = document.getElementById('field-phone').value.trim();
+
+      if (!name) {
+        setError('field-name', 'err-name', 'Full name is required.');
+        valid = false;
+      } else {
+        setError('field-name', 'err-name', '');
+      }
+
+      const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!email) {
+        setError('field-email', 'err-email', 'Email address is required.');
+        valid = false;
+      } else if (!emailRe.test(email)) {
+        setError('field-email', 'err-email', 'Please enter a valid email address.');
+        valid = false;
+      } else {
+        setError('field-email', 'err-email', '');
+      }
+
+      if (!company) {
+        setError('field-company', 'err-company', 'Company name is required.');
+        valid = false;
+      } else {
+        setError('field-company', 'err-company', '');
+      }
+
+      if (!phone) {
+        setError('field-phone', 'err-phone', 'Phone number is required.');
+        valid = false;
+      } else {
+        setError('field-phone', 'err-phone', '');
+      }
+
+      return valid;
+    }
+
+    // ── Form submission ───────────────────────────────────────────────────────
+    document.getElementById('contact-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const banner = document.getElementById('form-error-banner');
+      banner.style.display = 'none';
+
+      if (!validateForm()) {
+        banner.style.display = '';
+        document.getElementById('form-error-text').textContent = 'Please fill in all required fields correctly.';
+        return;
+      }
+
+      // Show loading state
+      document.getElementById('submit-label').style.display  = 'none';
+      document.getElementById('submit-loading').style.display = '';
+      document.getElementById('submit-btn').disabled = true;
+
+      try {
+        const { error } = await _supabase.from('form_data').insert({
+          name:          document.getElementById('field-name').value.trim(),
+          email:         document.getElementById('field-email').value.trim(),
+          company:       document.getElementById('field-company').value.trim(),
+          phone:         document.getElementById('field-phone').value.trim(),
+          assigned_to:   PERSON_DISPLAY[personKey],
+          wants_meeting: document.getElementById('schedule-checkbox').checked,
+        });
+
+        if (!error) {
+          window.location.href = redirect;
+        } else {
+          console.error('Supabase error:', error);
+          throw new Error(error.message);
+        }
+      } catch (err) {
+        console.error('Submission error:', err);
+        document.getElementById('submit-label').style.display  = '';
+        document.getElementById('submit-loading').style.display = 'none';
+        document.getElementById('submit-btn').disabled = false;
+        banner.style.display = '';
+        document.getElementById('form-error-text').textContent =
+          'Error: ' + (err.message || 'Something went wrong. Please try again.');
+      }
+    });
+
+    // Clear field errors on input
+    ['field-name', 'field-email', 'field-company', 'field-phone'].forEach(id => {
+      document.getElementById(id).addEventListener('input', function() {
+        this.classList.remove('input-error');
+        const errId = 'err-' + id.replace('field-', '');
+        const errEl = document.getElementById(errId);
+        if (errEl) errEl.textContent = '';
+      });
+    });
+  </script>
+</body>
+</html>
