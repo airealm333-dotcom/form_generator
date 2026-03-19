@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Form Link Generator</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
   <div class="page-wrapper">
@@ -119,7 +120,11 @@
   <script>
     let generatedUrl = '';
 
-    function generateLink() {
+    const SUPABASE_URL = 'https://fdrfettybdjmmriummrp.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZkcmZldHR5YmRqbW1yaXVtbXJwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMzMDkyMTQsImV4cCI6MjA4ODg4NTIxNH0.czYM-gd9wymGZcv3uTkwMGsMlrMMef4RJat75I36-yI';
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    async function generateLink() {
       const errorEl = document.getElementById('error-msg');
       const resultBox = document.getElementById('result-box');
       errorEl.textContent = '';
@@ -146,9 +151,31 @@
         return;
       }
 
-      const base = window.location.href.replace('index.html', '').replace(/\/$/, '');
-      const params = new URLSearchParams({ name: selectedPerson.value, redirect: redirectUrl });
-      generatedUrl = `${base}/form.html?${params.toString()}`;
+      try {
+        const { data, error } = await _supabase
+          .from('url_data')
+          .insert({
+            assigned_to: selectedPerson.value,
+            redirect_url: redirectUrl,
+          })
+          .select('id')
+          .single();
+
+        if (error) throw error;
+        const postid = data?.id;
+
+        if (!postid) {
+          showError('Could not create form link. Please try again.');
+          return;
+        }
+
+        const base = 'https://resources.experidium.com';
+        generatedUrl = `${base}/${selectedPerson.value}/${postid}/get/resources/form`;
+      } catch (err) {
+        console.error('Supabase insert error:', err);
+        showError((err && err.message) ? err.message : 'Could not create form link. Please try again.');
+        return;
+      }
 
       document.getElementById('result-url').textContent = generatedUrl;
       document.getElementById('result-open-btn').href = generatedUrl;

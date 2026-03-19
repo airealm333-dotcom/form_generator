@@ -1,0 +1,13 @@
+{
+  "rewrites": [
+    {
+      "source": "/:assignedperson/:postid/get/resources/form",
+      "destination": "/form.html?assignedperson=:assignedperson&postid=:postid"
+    },
+    {
+      "source": "/:assignedperson/:postid/get/resource/form",
+      "destination": "/form.html?assignedperson=:assignedperson&postid=:postid"
+    }
+  ]
+}
+

@@ -163,26 +163,63 @@
     };
 
     // ── Read and validate URL params ──────────────────────────────────────────
-    const params    = new URLSearchParams(window.location.search);
-    const personKey = (params.get('name') || '').toLowerCase();
-    const redirect  = params.get('redirect') || '';
+    let personKey = '';
+    let redirectUrl = '';
+
+    const params = new URLSearchParams(window.location.search);
+    const assignedperson = (params.get('assignedperson') || '').toLowerCase();
+    const postid = (params.get('postid') || '').trim();
 
     function isValidUrl(str) {
       try { new URL(str); return true; } catch { return false; }
     }
 
-    if (!CALENDLY_LINKS[personKey] || !redirect || !isValidUrl(redirect)) {
-      document.getElementById('invalid-state').style.display = '';
-      document.getElementById('form-content').style.display = 'none';
-    } else {
-      // Populate hidden fields & page titles
-      document.getElementById('field-next').value     = redirect;
-      document.getElementById('field-assigned').value = PERSON_DISPLAY[personKey];
-      document.getElementById('form-title').textContent    = `Precision in every inquiry`;
-      document.getElementById('form-subtitle').textContent = `Share your details and ${PERSON_DISPLAY[personKey]} will follow up with you personally.`;
-      document.title = `Contact ${PERSON_DISPLAY[personKey]}`;
+    // Hide form until we fetch the url_data row for this postid
+    const formContentEl = document.getElementById('form-content');
+    formContentEl.style.display = 'none';
 
+    async function init() {
+      try {
+        if (!CALENDLY_LINKS[assignedperson] || !postid) {
+          throw new Error('Missing required URL parameters');
+        }
+
+        const { data, error } = await _supabase
+          .from('url_data')
+          .select('assigned_to, redirect_url')
+          .eq('id', postid)
+          .single();
+
+        if (error) throw error;
+        if (!data) throw new Error('No matching url_data row found');
+
+        const dbAssigned = (data.assigned_to || '').toLowerCase();
+        const dbRedirect = data.redirect_url || '';
+
+        if (!CALENDLY_LINKS[dbAssigned]) throw new Error('Unknown assigned_to');
+        if (dbAssigned !== assignedperson) throw new Error('Assigned person mismatch');
+        if (!dbRedirect || !isValidUrl(dbRedirect)) throw new Error('Invalid redirect_url');
+
+        personKey = dbAssigned;
+        redirectUrl = dbRedirect;
+
+        document.getElementById('field-next').value = redirectUrl;
+        document.getElementById('field-assigned').value = PERSON_DISPLAY[personKey];
+
+        document.getElementById('form-title').textContent = `Precision in every inquiry`;
+        document.getElementById('form-subtitle').textContent =
+          `Share your details and ${PERSON_DISPLAY[personKey]} will follow up with you personally.`;
+        document.title = `Contact ${PERSON_DISPLAY[personKey]}`;
+
+        formContentEl.style.display = '';
+      } catch (err) {
+        console.error('form.html init error:', err);
+        document.getElementById('invalid-state').style.display = '';
+        formContentEl.style.display = 'none';
+      }
     }
+
+    init();
 
     function syncMeetingToggle() {
       const cb = document.getElementById('schedule-checkbox');
@@ -319,7 +356,8 @@
         });
 
         if (!error) {
-          window.location.href = redirect;
+          if (!redirectUrl) throw new Error('Missing redirect URL for this form.');
+          window.location.href = redirectUrl;
         } else {
           console.error('Supabase error:', error);
           throw new Error(error.message);
