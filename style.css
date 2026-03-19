@@ -56,7 +56,11 @@ body {
 
 /* Form page gets a bold gradient background */
 .form-page .page-wrapper {
-  background: radial-gradient(ellipse at 40% 30%, #1a1035 0%, #0a0a0f 60%, #000000 100%);
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.85) 0%, rgba(255,255,255,0) 35%),
+    radial-gradient(circle at 85% 15%, rgba(255, 209, 230, 0.45) 0%, rgba(255,209,230,0) 38%),
+    radial-gradient(circle at 80% 82%, rgba(196, 181, 253, 0.5) 0%, rgba(196,181,253,0) 42%),
+    linear-gradient(135deg, #f8fafc 0%, #eef2ff 35%, #f5f3ff 70%, #ecfeff 100%);
 }
 
 /* ── Card ─────────────────────────────────────────────────────────────────── */
@@ -72,10 +76,10 @@ body {
 
 /* Form card gets glass-morphism treatment tuned for dark background */
 .form-page .card {
-  background: rgba(255, 255, 255, 0.94);
-  box-shadow: 0 24px 80px rgba(0,0,0,.6), 0 2px 0 rgba(255,255,255,.15) inset;
-  border: 1px solid rgba(255,255,255,0.5);
-  backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 24px 64px rgba(99,102,241,.18), 0 10px 30px rgba(15,23,42,.08);
+  border: 1px solid rgba(255,255,255,0.65);
+  backdrop-filter: blur(18px);
 }
 
 .generator-card { max-width: 560px; }
@@ -616,9 +620,10 @@ body {
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #e8e0ff, #f3e8ff);
+  background: linear-gradient(135deg, #e0e7ff, #ede9fe);
   overflow: hidden;
-  box-shadow: 0 4px 16px rgba(109,40,217,.35);
+  border: 2px solid rgba(255,255,255,0.7);
+  box-shadow: 0 8px 20px rgba(79,70,229,.28);
   animation: avatar-pop 0.5s cubic-bezier(.34,1.56,.64,1) 0.1s both;
 }
 
