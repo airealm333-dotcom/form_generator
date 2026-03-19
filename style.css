@@ -56,7 +56,7 @@ body {
 
 /* Form page gets a bold gradient background */
 .form-page .page-wrapper {
-  background: linear-gradient(135deg, #3730a3 0%, #6d28d9 45%, #a21caf 100%);
+  background: radial-gradient(ellipse at 40% 30%, #1a1035 0%, #0a0a0f 60%, #000000 100%);
 }
 
 /* ── Card ─────────────────────────────────────────────────────────────────── */
@@ -70,12 +70,12 @@ body {
   animation: card-in 0.35s cubic-bezier(.22,1,.36,1) both;
 }
 
-/* Form card gets glass-morphism treatment */
+/* Form card gets glass-morphism treatment tuned for dark background */
 .form-page .card {
-  background: rgba(255, 255, 255, 0.97);
-  box-shadow: 0 24px 64px rgba(55,48,163,.25), 0 4px 16px rgba(0,0,0,.08);
-  border: 1px solid rgba(255,255,255,0.6);
-  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 24px 80px rgba(0,0,0,.6), 0 2px 0 rgba(255,255,255,.15) inset;
+  border: 1px solid rgba(255,255,255,0.5);
+  backdrop-filter: blur(20px);
 }
 
 .generator-card { max-width: 560px; }
@@ -616,16 +616,17 @@ body {
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #4f46e5, #7c3aed, #a855f7);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 1.5rem;
-  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #e8e0ff, #f3e8ff);
+  overflow: hidden;
   box-shadow: 0 4px 16px rgba(109,40,217,.35);
   animation: avatar-pop 0.5s cubic-bezier(.34,1.56,.64,1) 0.1s both;
+}
+
+.form-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 @keyframes avatar-pop {

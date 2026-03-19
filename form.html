@@ -30,7 +30,9 @@
       <!-- Form content -->
       <div id="form-content">
         <div class="card-header">
-          <div class="form-avatar" id="form-avatar">?</div>
+          <div class="form-avatar">
+            <img id="form-avatar-img" src="" alt="Avatar" />
+          </div>
           <div>
             <h1 class="card-title" id="form-title">Contact Form</h1>
             <p class="card-subtitle" id="form-subtitle">Fill in your details below</p>
@@ -203,7 +205,8 @@
       document.getElementById('form-title').textContent    = `Let's Connect with ${PERSON_DISPLAY[personKey]}!`;
       document.getElementById('form-subtitle').textContent = `Fill in your details below and ${PERSON_DISPLAY[personKey]} will personally reach out to you very soon.`;
       document.title = `Contact ${PERSON_DISPLAY[personKey]}`;
-      document.getElementById('form-avatar').textContent = PERSON_DISPLAY[personKey].charAt(0).toUpperCase();
+      document.getElementById('form-avatar-img').src =
+        `https://api.dicebear.com/9.x/avataaars/svg?seed=${personKey}&backgroundColor=b6e3f4,c0aede,d1d4f9`;
 
     }
 
