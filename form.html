@@ -29,36 +29,16 @@
 
       <!-- Form content -->
       <div id="form-content">
-        <div class="card-header">
-          <div class="form-avatar">
-            <img id="form-avatar-img" src="" alt="Avatar" />
-          </div>
-          <div>
-            <h1 class="card-title" id="form-title">Contact Form</h1>
-            <p class="card-subtitle" id="form-subtitle">Fill in your details below</p>
-          </div>
-        </div>
-
-        <!-- Progress bar -->
-        <div class="progress-bar">
-          <div class="progress-step active" id="step-1">
-            <div class="step-dot" data-num="1"></div>
-            <span class="step-label">Your Details</span>
-          </div>
-          <div class="progress-connector" id="progress-connector"></div>
-          <div class="progress-step" id="step-2">
-            <div class="step-dot" data-num="2"></div>
-            <span class="step-label">Schedule Meeting</span>
-          </div>
+        <div class="card-header form-hero">
+          <h1 class="card-title" id="form-title">Contact Form</h1>
+          <p class="card-subtitle" id="form-subtitle">Fill in your details below</p>
         </div>
 
         <form id="contact-form" method="POST" novalidate>
-          <!-- Formspree hidden redirect field -->
           <input type="hidden" name="_next" id="field-next" value="" />
-          <!-- Person identifier (for your records) -->
           <input type="hidden" name="assigned_to" id="field-assigned" value="" />
 
-          <div class="form-row">
+          <div class="form-stack">
             <div class="form-group fade-field" style="--i:0">
               <label class="label" for="field-name">
                 <span class="label-icon">
@@ -67,10 +47,10 @@
                     <circle cx="12" cy="7" r="4"/>
                   </svg>
                 </span>
-                Full Name <span class="required">*</span>
+                Full name <span class="required">*</span>
               </label>
               <div class="field-wrap">
-                <input type="text" id="field-name" name="name" class="input" placeholder="John Doe" autocomplete="name" />
+                <input type="text" id="field-name" name="name" class="input" placeholder="Full name" autocomplete="name" />
                 <span class="field-tick">✓</span>
               </div>
               <span class="field-error" id="err-name"></span>
@@ -84,17 +64,15 @@
                     <polyline points="22,6 12,13 2,6"/>
                   </svg>
                 </span>
-                Email Address <span class="required">*</span>
+                Corporate email <span class="required">*</span>
               </label>
               <div class="field-wrap">
-                <input type="email" id="field-email" name="email" class="input" placeholder="john@example.com" autocomplete="email" />
+                <input type="email" id="field-email" name="email" class="input" placeholder="name@company.com" autocomplete="email" />
                 <span class="field-tick">✓</span>
               </div>
               <span class="field-error" id="err-email"></span>
             </div>
-          </div>
 
-          <div class="form-row">
             <div class="form-group fade-field" style="--i:2">
               <label class="label" for="field-company">
                 <span class="label-icon">
@@ -103,10 +81,10 @@
                     <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
                   </svg>
                 </span>
-                Company <span class="required">*</span>
+                Company name <span class="required">*</span>
               </label>
               <div class="field-wrap">
-                <input type="text" id="field-company" name="company" class="input" placeholder="Acme Inc." autocomplete="organization" />
+                <input type="text" id="field-company" name="company" class="input" placeholder="Company name" autocomplete="organization" />
                 <span class="field-tick">✓</span>
               </div>
               <span class="field-error" id="err-company"></span>
@@ -119,36 +97,34 @@
                     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.65 3.38 2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.78a16 16 0 0 0 6 6l.86-.86a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16z"/>
                   </svg>
                 </span>
-                Phone Number <span class="required">*</span>
+                Phone <span class="required">*</span>
               </label>
               <div class="field-wrap">
-                <input type="tel" id="field-phone" name="phone" class="input" placeholder="+1 (555) 000-0000" autocomplete="tel" />
+                <input type="tel" id="field-phone" name="phone" class="input" placeholder="Phone number" autocomplete="tel" />
                 <span class="field-tick">✓</span>
               </div>
               <span class="field-error" id="err-phone"></span>
             </div>
           </div>
 
-          <!-- Calendly scheduling option -->
-          <div class="calendly-section">
-            <label class="checkbox-label">
-              <input type="checkbox" id="schedule-checkbox" onchange="toggleCalendly(this)" />
-              <span class="checkbox-custom"></span>
-              <span class="checkbox-text">
-                <strong id="meeting-label">Would you like to schedule a meeting?</strong>
-                <span class="checkbox-sub" id="meeting-sub">Book a time that works best for you.</span>
-              </span>
-            </label>
-
+          <div class="calendly-section" id="meeting-section">
+            <div class="meeting-row">
+              <div class="meeting-row-text">
+                <strong id="meeting-label">Would you like to book a meeting?</strong>
+                <span class="checkbox-sub" id="meeting-sub">Pick a time that works for you.</span>
+              </div>
+              <input type="checkbox" id="schedule-checkbox" class="visually-hidden-checkbox" tabindex="-1" aria-hidden="true" />
+              <button type="button" class="meeting-toggle" id="meeting-toggle" aria-pressed="false" aria-label="Toggle meeting booking"></button>
+            </div>
           </div>
 
           <button type="submit" class="btn btn-primary submit-btn" id="submit-btn">
             <span id="submit-label">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="22" y1="2" x2="11" y2="13"/>
-                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+              Initialize Connection
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
               </svg>
-              Submit
             </span>
             <span id="submit-loading" style="display:none;">
               <span class="spinner"></span>
@@ -202,36 +178,59 @@
       // Populate hidden fields & page titles
       document.getElementById('field-next').value     = redirect;
       document.getElementById('field-assigned').value = PERSON_DISPLAY[personKey];
-      document.getElementById('form-title').textContent    = `Let's Connect with ${PERSON_DISPLAY[personKey]}!`;
-      document.getElementById('form-subtitle').textContent = `Fill in your details below and ${PERSON_DISPLAY[personKey]} will personally reach out to you very soon.`;
+      document.getElementById('form-title').textContent    = `Precision in every inquiry`;
+      document.getElementById('form-subtitle').textContent = `Share your details and ${PERSON_DISPLAY[personKey]} will follow up with you personally.`;
       document.title = `Contact ${PERSON_DISPLAY[personKey]}`;
-      document.getElementById('form-avatar-img').src =
-        `https://api.dicebear.com/9.x/personas/svg?seed=${personKey}&backgroundColor=d1d4f9,e9d5ff,fbcfe8`;
 
+    }
+
+    function syncMeetingToggle() {
+      const cb = document.getElementById('schedule-checkbox');
+      const btn = document.getElementById('meeting-toggle');
+      if (!btn || !cb) return;
+      const on = cb.checked;
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      btn.classList.toggle('is-on', on);
+      btn.disabled = cb.disabled;
     }
 
     // ── Calendly popup toggle ─────────────────────────────────────────────────
     function toggleCalendly(checkbox) {
       if (checkbox.checked) {
         Calendly.initPopupWidget({ url: CALENDLY_LINKS[personKey] });
-        // Uncheck the box after popup opens so it can be re-triggered if closed
-        setTimeout(() => { checkbox.checked = false; }, 300);
+        setTimeout(() => {
+          checkbox.checked = false;
+          syncMeetingToggle();
+        }, 300);
       }
+    }
+
+    const meetingToggleBtn = document.getElementById('meeting-toggle');
+    if (meetingToggleBtn) {
+      meetingToggleBtn.addEventListener('click', function() {
+        const cb = document.getElementById('schedule-checkbox');
+        if (!cb || cb.disabled) return;
+        cb.checked = true;
+        syncMeetingToggle();
+        toggleCalendly(cb);
+      });
     }
 
     // ── Calendly booking confirmation ─────────────────────────────────────────
     window.addEventListener('message', function(e) {
       if (e.data && e.data.event === 'calendly.event_scheduled') {
         const checkbox = document.getElementById('schedule-checkbox');
+        const section = document.getElementById('meeting-section');
         checkbox.checked = true;
         checkbox.disabled = true;
-        document.getElementById('meeting-label').textContent = 'Meeting Booked';
+        document.getElementById('meeting-label').textContent = 'Meeting booked';
         document.getElementById('meeting-sub').textContent = 'Your meeting has been scheduled successfully.';
-        document.querySelector('.calendly-section').style.borderColor = '#10b981';
-        document.querySelector('.calendly-section').style.background = '#f0fdf4';
-        // Mark step 2 as done in progress bar
-        document.getElementById('step-2').classList.remove('active');
-        document.getElementById('step-2').classList.add('done');
+        if (section) {
+          section.classList.add('is-booked');
+          section.style.borderColor = '#10b981';
+          section.style.background = '#f0fdf4';
+        }
+        syncMeetingToggle();
       }
     });
 
@@ -355,30 +354,10 @@
       }
     }
 
-    function updateProgressBar() {
-      const allValid = ['field-name', 'field-email', 'field-company', 'field-phone']
-        .every(isFieldValid);
-      const step1 = document.getElementById('step-1');
-      const step2 = document.getElementById('step-2');
-      const connector = document.getElementById('progress-connector');
-      if (allValid) {
-        step1.classList.remove('active');
-        step1.classList.add('done');
-        step2.classList.add('active');
-        connector.classList.add('filled');
-      } else {
-        step1.classList.add('active');
-        step1.classList.remove('done');
-        step2.classList.remove('active');
-        connector.classList.remove('filled');
-      }
-    }
-
     ['field-name', 'field-email', 'field-company', 'field-phone'].forEach(id => {
       const el = document.getElementById(id);
       el.addEventListener('blur', function() {
         updateFieldTick(id);
-        updateProgressBar();
       });
       el.addEventListener('input', function() {
         this.classList.remove('input-error');
