@@ -116,8 +116,8 @@
               <input type="checkbox" id="schedule-checkbox" onchange="toggleCalendly(this)" />
               <span class="checkbox-custom"></span>
               <span class="checkbox-text">
-                <strong>Would you like to schedule a meeting?</strong>
-                <span class="checkbox-sub">Book a time that works best for you.</span>
+                <strong id="meeting-label">Would you like to schedule a meeting?</strong>
+                <span class="checkbox-sub" id="meeting-sub">Book a time that works best for you.</span>
               </span>
             </label>
 
@@ -197,6 +197,19 @@
         setTimeout(() => { checkbox.checked = false; }, 300);
       }
     }
+
+    // ── Calendly booking confirmation ─────────────────────────────────────────
+    window.addEventListener('message', function(e) {
+      if (e.data && e.data.event === 'calendly.event_scheduled') {
+        const checkbox = document.getElementById('schedule-checkbox');
+        checkbox.checked = true;
+        checkbox.disabled = true;
+        document.getElementById('meeting-label').textContent = 'Meeting Booked';
+        document.getElementById('meeting-sub').textContent = 'Your meeting has been scheduled successfully.';
+        document.querySelector('.calendly-section').style.borderColor = '#10b981';
+        document.querySelector('.calendly-section').style.background = '#f0fdf4';
+      }
+    });
 
     // ── Client-side validation ────────────────────────────────────────────────
     function setError(fieldId, errId, message) {
