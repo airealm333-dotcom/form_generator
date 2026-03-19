@@ -54,6 +54,11 @@ body {
     var(--bg);
 }
 
+/* Form page gets a bold gradient background */
+.form-page .page-wrapper {
+  background: linear-gradient(135deg, #3730a3 0%, #6d28d9 45%, #a21caf 100%);
+}
+
 /* ── Card ─────────────────────────────────────────────────────────────────── */
 .card {
   background: var(--surface);
@@ -63,6 +68,14 @@ body {
   padding: 2.5rem;
   width: 100%;
   animation: card-in 0.35s cubic-bezier(.22,1,.36,1) both;
+}
+
+/* Form card gets glass-morphism treatment */
+.form-page .card {
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: 0 24px 64px rgba(55,48,163,.25), 0 4px 16px rgba(0,0,0,.08);
+  border: 1px solid rgba(255,255,255,0.6);
+  backdrop-filter: blur(12px);
 }
 
 .generator-card { max-width: 560px; }
@@ -595,4 +608,192 @@ body {
   .name-card-inner { flex-direction: row; justify-content: center; padding: 0.75rem 1rem; }
   .card-title { font-size: 1.15rem; }
   .calendly-link-inner { flex-direction: column; align-items: flex-start; }
+}
+
+/* ── Form Page Avatar ─────────────────────────────────────────────────────── */
+.form-avatar {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed, #a855f7);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.5rem;
+  letter-spacing: -0.02em;
+  box-shadow: 0 4px 16px rgba(109,40,217,.35);
+  animation: avatar-pop 0.5s cubic-bezier(.34,1.56,.64,1) 0.1s both;
+}
+
+@keyframes avatar-pop {
+  from { opacity: 0; transform: scale(0.5); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* ── Progress Bar ─────────────────────────────────────────────────────────── */
+.progress-bar {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 2rem;
+  padding: 1rem 0 1.25rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  position: relative;
+}
+
+.step-dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.step-dot::before {
+  content: attr(data-num);
+}
+
+.step-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  transition: color 0.3s ease;
+  white-space: nowrap;
+}
+
+.progress-connector {
+  flex: 2;
+  height: 2px;
+  background: var(--border);
+  margin-bottom: 22px;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-connector::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #4f46e5, #7c3aed);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+
+.progress-connector.filled::after { transform: scaleX(1); }
+
+.progress-step.active .step-dot {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 0 0 4px rgba(99,102,241,.2);
+}
+
+.progress-step.active .step-label { color: var(--primary); }
+
+.progress-step.done .step-dot {
+  border-color: var(--success);
+  background: var(--success);
+  color: #fff;
+}
+
+.progress-step.done .step-dot::before { content: '✓'; }
+.progress-step.done .step-label { color: var(--success); }
+
+/* ── Staggered field fade-in ──────────────────────────────────────────────── */
+.fade-field {
+  opacity: 0;
+  animation: field-in 0.4s cubic-bezier(.22,1,.36,1) both;
+  animation-delay: calc(var(--i, 0) * 80ms + 200ms);
+}
+
+@keyframes field-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Field wrapper + tick ─────────────────────────────────────────────────── */
+.field-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.field-wrap .input {
+  padding-right: 2.5rem;
+}
+
+.field-tick {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%) scale(0);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--success);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  font-weight: 800;
+  transition: transform 0.2s cubic-bezier(.34,1.56,.64,1);
+  pointer-events: none;
+}
+
+.input.valid ~ .field-tick {
+  transform: translateY(-50%) scale(1);
+}
+
+.input.valid {
+  border-color: var(--success);
+  background: #f0fdf9;
+}
+
+.input.valid:focus {
+  box-shadow: 0 0 0 3px rgba(16,185,129,.2);
+  border-color: var(--success);
+}
+
+/* ── Submit button gradient ───────────────────────────────────────────────── */
+.form-page .btn-primary {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  box-shadow: 0 4px 16px rgba(109,40,217,.35);
+  font-size: 1.05rem;
+  padding: 0.9rem;
+  letter-spacing: 0.01em;
+}
+
+.form-page .btn-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #4338ca, #6d28d9);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(109,40,217,.4);
+}
+
+@media (max-width: 600px) {
+  .progress-bar { gap: 0; }
+  .step-label { font-size: 0.68rem; }
 }

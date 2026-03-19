@@ -9,7 +9,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://assets.calendly.com/assets/external/widget.js"></script>
 </head>
-<body>
+<body class="form-page">
   <div class="page-wrapper">
     <div class="card form-card" id="form-card">
 
@@ -30,18 +30,23 @@
       <!-- Form content -->
       <div id="form-content">
         <div class="card-header">
-          <div class="logo-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-              <polyline points="14 2 14 8 20 8"/>
-              <line x1="16" y1="13" x2="8" y2="13"/>
-              <line x1="16" y1="17" x2="8" y2="17"/>
-              <polyline points="10 9 9 9 8 9"/>
-            </svg>
-          </div>
+          <div class="form-avatar" id="form-avatar">?</div>
           <div>
             <h1 class="card-title" id="form-title">Contact Form</h1>
             <p class="card-subtitle" id="form-subtitle">Fill in your details below</p>
+          </div>
+        </div>
+
+        <!-- Progress bar -->
+        <div class="progress-bar">
+          <div class="progress-step active" id="step-1">
+            <div class="step-dot" data-num="1"></div>
+            <span class="step-label">Your Details</span>
+          </div>
+          <div class="progress-connector" id="progress-connector"></div>
+          <div class="progress-step" id="step-2">
+            <div class="step-dot" data-num="2"></div>
+            <span class="step-label">Schedule Meeting</span>
           </div>
         </div>
 
@@ -52,7 +57,7 @@
           <input type="hidden" name="assigned_to" id="field-assigned" value="" />
 
           <div class="form-row">
-            <div class="form-group">
+            <div class="form-group fade-field" style="--i:0">
               <label class="label" for="field-name">
                 <span class="label-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -62,11 +67,14 @@
                 </span>
                 Full Name <span class="required">*</span>
               </label>
-              <input type="text" id="field-name" name="name" class="input" placeholder="John Doe" autocomplete="name" />
+              <div class="field-wrap">
+                <input type="text" id="field-name" name="name" class="input" placeholder="John Doe" autocomplete="name" />
+                <span class="field-tick">✓</span>
+              </div>
               <span class="field-error" id="err-name"></span>
             </div>
 
-            <div class="form-group">
+            <div class="form-group fade-field" style="--i:1">
               <label class="label" for="field-email">
                 <span class="label-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -76,13 +84,16 @@
                 </span>
                 Email Address <span class="required">*</span>
               </label>
-              <input type="email" id="field-email" name="email" class="input" placeholder="john@example.com" autocomplete="email" />
+              <div class="field-wrap">
+                <input type="email" id="field-email" name="email" class="input" placeholder="john@example.com" autocomplete="email" />
+                <span class="field-tick">✓</span>
+              </div>
               <span class="field-error" id="err-email"></span>
             </div>
           </div>
 
           <div class="form-row">
-            <div class="form-group">
+            <div class="form-group fade-field" style="--i:2">
               <label class="label" for="field-company">
                 <span class="label-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -92,11 +103,14 @@
                 </span>
                 Company <span class="required">*</span>
               </label>
-              <input type="text" id="field-company" name="company" class="input" placeholder="Acme Inc." autocomplete="organization" />
+              <div class="field-wrap">
+                <input type="text" id="field-company" name="company" class="input" placeholder="Acme Inc." autocomplete="organization" />
+                <span class="field-tick">✓</span>
+              </div>
               <span class="field-error" id="err-company"></span>
             </div>
 
-            <div class="form-group">
+            <div class="form-group fade-field" style="--i:3">
               <label class="label" for="field-phone">
                 <span class="label-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -105,7 +119,10 @@
                 </span>
                 Phone Number <span class="required">*</span>
               </label>
-              <input type="tel" id="field-phone" name="phone" class="input" placeholder="+1 (555) 000-0000" autocomplete="tel" />
+              <div class="field-wrap">
+                <input type="tel" id="field-phone" name="phone" class="input" placeholder="+1 (555) 000-0000" autocomplete="tel" />
+                <span class="field-tick">✓</span>
+              </div>
               <span class="field-error" id="err-phone"></span>
             </div>
           </div>
@@ -186,6 +203,7 @@
       document.getElementById('form-title').textContent    = `Contact ${PERSON_DISPLAY[personKey]}`;
       document.getElementById('form-subtitle').textContent = `Fill in your details and ${PERSON_DISPLAY[personKey]} will be in touch.`;
       document.title = `Contact ${PERSON_DISPLAY[personKey]}`;
+      document.getElementById('form-avatar').textContent = PERSON_DISPLAY[personKey].charAt(0).toUpperCase();
 
     }
 
@@ -208,6 +226,9 @@
         document.getElementById('meeting-sub').textContent = 'Your meeting has been scheduled successfully.';
         document.querySelector('.calendly-section').style.borderColor = '#10b981';
         document.querySelector('.calendly-section').style.background = '#f0fdf4';
+        // Mark step 2 as done in progress bar
+        document.getElementById('step-2').classList.remove('active');
+        document.getElementById('step-2').classList.add('done');
       }
     });
 
@@ -312,13 +333,56 @@
       }
     });
 
-    // Clear field errors on input
+    // ── Per-field blur tick + progress bar ───────────────────────────────────
+    const emailReg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    function isFieldValid(id) {
+      const val = document.getElementById(id).value.trim();
+      if (id === 'field-email') return val && emailReg.test(val);
+      return val.length > 0;
+    }
+
+    function updateFieldTick(id) {
+      const el = document.getElementById(id);
+      if (isFieldValid(id)) {
+        el.classList.add('valid');
+        el.classList.remove('input-error');
+      } else {
+        el.classList.remove('valid');
+      }
+    }
+
+    function updateProgressBar() {
+      const allValid = ['field-name', 'field-email', 'field-company', 'field-phone']
+        .every(isFieldValid);
+      const step1 = document.getElementById('step-1');
+      const step2 = document.getElementById('step-2');
+      const connector = document.getElementById('progress-connector');
+      if (allValid) {
+        step1.classList.remove('active');
+        step1.classList.add('done');
+        step2.classList.add('active');
+        connector.classList.add('filled');
+      } else {
+        step1.classList.add('active');
+        step1.classList.remove('done');
+        step2.classList.remove('active');
+        connector.classList.remove('filled');
+      }
+    }
+
     ['field-name', 'field-email', 'field-company', 'field-phone'].forEach(id => {
-      document.getElementById(id).addEventListener('input', function() {
+      const el = document.getElementById(id);
+      el.addEventListener('blur', function() {
+        updateFieldTick(id);
+        updateProgressBar();
+      });
+      el.addEventListener('input', function() {
         this.classList.remove('input-error');
         const errId = 'err-' + id.replace('field-', '');
         const errEl = document.getElementById(errId);
         if (errEl) errEl.textContent = '';
+        if (isFieldValid(id)) updateFieldTick(id);
       });
     });
   </script>
