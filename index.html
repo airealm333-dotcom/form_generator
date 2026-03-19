@@ -170,7 +170,7 @@
         }
 
         const base = 'https://resources.experidium.com';
-        generatedUrl = `${base}/${selectedPerson.value}/${postid}/get/resources/form`;
+        generatedUrl = `${base}/form.html?assignedperson=${selectedPerson.value}&postid=${postid}`;
       } catch (err) {
         console.error('Supabase insert error:', err);
         showError((err && err.message) ? err.message : 'Could not create form link. Please try again.');
